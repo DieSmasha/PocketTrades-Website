@@ -349,10 +349,13 @@ img { max-width: 100%; display: block; }
 .footer { padding: 60px 0 32px; background: var(--navy); color: rgba(255,255,255,0.7); }
 .footer-brand { margin-bottom: 32px; }
 .footer-brand-text { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.footer-icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; background: var(--gold); color: var(--navy);
-  border-radius: 8px; font-weight: 700; font-size: 0.9rem;
+.footer-icon-wrap {
+  width: 40px; height: 40px; border-radius: 10px;
+  overflow: hidden; flex-shrink: 0;
+}
+.footer-icon-img {
+  height: 40px; width: auto;
+  object-fit: cover; object-position: left center;
 }
 .footer-name { font-size: 1.4rem; font-weight: 700; }
 .footer-tagline { margin-top: 8px; font-size: 0.9rem; }
