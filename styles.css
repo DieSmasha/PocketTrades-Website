@@ -69,7 +69,7 @@ img { max-width: 100%; display: block; }
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .nav-brand { display: flex; align-items: center; }
-.nav-logo { height: 48px; width: auto; }
+.nav-logo { height: 64px; width: auto; }
 .nav-links { display: flex; gap: 32px; }
 .nav-links a {
   color: var(--gray-600); font-weight: 500; font-size: 0.95rem;
