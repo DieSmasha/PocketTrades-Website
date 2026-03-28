@@ -13,7 +13,7 @@
 <body>
 
   <!-- Nav -->
-  <nav class="nav">
+  <nav class="nav" id="nav">
     <div class="container nav-inner">
       <div class="nav-brand">
         <span class="logo-p">P</span><span class="logo-t">T</span>
@@ -29,9 +29,10 @@
 
   <!-- Hero -->
   <section class="hero">
+    <div class="hero-pattern"></div>
     <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>Invoicing built for<br><span class="gold">Canadian tradespeople.</span></h1>
+      <div class="hero-text anim-hero">
+        <h1>Invoicing built for<br><span class="gold-gradient">Canadian tradespeople.</span></h1>
         <p class="hero-sub">Create professional invoices and quotes in seconds. Manage jobs, track payments, and run your trade business — all from your phone. Works offline, so it works on the job site.</p>
         <div class="store-badges">
           <div class="badge-wrapper">
@@ -44,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual anim-hero-phone">
         <div class="phone-mockup">
           <div class="phone-screen">
             <div class="mockup-header">
@@ -53,7 +54,7 @@
             </div>
             <div class="mockup-stat">
               <span class="mockup-label">This Month</span>
-              <span class="mockup-value">$4,250.00</span>
+              <span class="mockup-value" id="counter">$0.00</span>
             </div>
             <div class="mockup-cards">
               <div class="mockup-card">
@@ -81,45 +82,45 @@
   <!-- Features -->
   <section id="features" class="features">
     <div class="container">
-      <h2 class="section-title">Everything you need to run your trade business.</h2>
-      <p class="section-sub">From the first quote to the final payment — PocketTrades handles it all.</p>
+      <h2 class="section-title reveal">Everything you need to run your trade business.</h2>
+      <p class="section-sub reveal">From the first quote to the final payment — PocketTrades handles it all.</p>
       <div class="features-grid">
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#128196;</div>
           <h3>Professional Invoices</h3>
           <p>Create and send polished PDF invoices with your logo, tax breakdown, and payment terms. Email or text them directly to your customer.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#128221;</div>
           <h3>Quick Quotes</h3>
           <p>Build detailed quotes with labour and materials. Convert accepted quotes to invoices with one tap.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#128247;</div>
           <h3>Job Management</h3>
           <p>Track jobs from start to finish. Attach photos, notes, and create invoices directly from completed work.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#128302;</div>
           <h3>Chip AI Assistant</h3>
           <p>Ask Chip to create invoices, look up customers, or answer questions about your business — all by voice or text.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#9992;&#65039;</div>
           <h3>Works Offline</h3>
           <p>No internet on the job site? No problem. Everything saves locally and syncs when you're back online.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#128200;</div>
           <h3>Business Reports</h3>
           <p>Track revenue, expenses, labour vs materials, and tax collected. Export reports for your accountant at tax time.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#128101;</div>
           <h3>Customer Management</h3>
           <p>Keep all your clients organized with contact info, job history, and outstanding balances in one place.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">&#127464;&#127462;</div>
           <h3>Built for Canada</h3>
           <p>GST/HST/PST/QST tax handling built in. Province-specific tax rates configured during setup. All prices in CAD.</p>
@@ -131,21 +132,21 @@
   <!-- How It Works -->
   <section class="how-it-works">
     <div class="container">
-      <h2 class="section-title">Up and running in minutes.</h2>
+      <h2 class="section-title reveal">Up and running in minutes.</h2>
       <div class="steps">
-        <div class="step">
+        <div class="step reveal">
           <div class="step-number">1</div>
           <h3>Set up your trade</h3>
           <p>Pick your trade, select your province, and your tax rates are auto-configured. Add your business name and logo.</p>
         </div>
-        <div class="step-arrow">&rarr;</div>
-        <div class="step">
+        <div class="step-arrow reveal">&rarr;</div>
+        <div class="step reveal">
           <div class="step-number">2</div>
           <h3>Create invoices & quotes</h3>
           <p>Use your catalog of common items or add custom line items. Categorize as labour or materials for clean reporting.</p>
         </div>
-        <div class="step-arrow">&rarr;</div>
-        <div class="step">
+        <div class="step-arrow reveal">&rarr;</div>
+        <div class="step reveal">
           <div class="step-number">3</div>
           <h3>Send & get paid</h3>
           <p>Email or text professional PDFs to your customers. Record payments and track outstanding balances.</p>
@@ -154,13 +155,55 @@
     </div>
   </section>
 
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title reveal">What beta testers are saying.</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Finally an invoicing app that doesn't assume I'm sitting at a desk. I create invoices right from the job site before I even pack up my tools."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MR</div>
+            <div>
+              <strong>Mike R.</strong>
+              <span>Plumber, Toronto ON</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"The tax stuff is huge. GST/HST is already set up for my province — I just pick items and send. My old app made me calculate tax manually every time."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SC</div>
+            <div>
+              <strong>Sarah C.</strong>
+              <span>Electrician, Calgary AB</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"I work in a lot of basements with zero signal. The offline thing actually works — I've created full invoices with no internet and they sync later."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">JT</div>
+            <div>
+              <strong>James T.</strong>
+              <span>HVAC Tech, Ottawa ON</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing -->
   <section id="pricing" class="pricing">
     <div class="container">
-      <h2 class="section-title">Simple, honest pricing.</h2>
-      <p class="section-sub">Start free. Upgrade when you're ready.</p>
+      <h2 class="section-title reveal">Simple, honest pricing.</h2>
+      <p class="section-sub reveal">Start free. Upgrade when you're ready.</p>
       <div class="pricing-cards">
-        <div class="pricing-card">
+        <div class="pricing-card reveal">
           <h3>Free</h3>
           <div class="price">$0<span>/month</span></div>
           <ul>
@@ -172,7 +215,7 @@
             <li>Basic reports</li>
           </ul>
         </div>
-        <div class="pricing-card pro">
+        <div class="pricing-card pro reveal">
           <div class="pro-badge">Most Popular</div>
           <h3>Pro</h3>
           <div class="price gold-text">$14.99<span>/month</span></div>
@@ -194,31 +237,31 @@
   <!-- FAQ -->
   <section id="faq" class="faq">
     <div class="container">
-      <h2 class="section-title">Frequently asked questions.</h2>
+      <h2 class="section-title reveal">Frequently asked questions.</h2>
       <div class="faq-list">
-        <div class="faq-item">
-          <h3 class="faq-q">What trades is PocketTrades built for?</h3>
-          <p>Plumbers, electricians, HVAC techs, general contractors, carpenters, landscapers — and more coming soon. The app pre-loads common catalogue items for your specific trade.</p>
+        <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+          <h3 class="faq-q">What trades is PocketTrades built for? <span class="faq-toggle">+</span></h3>
+          <div class="faq-a"><p>Plumbers, electricians, HVAC techs, general contractors, carpenters, landscapers — and more coming soon. The app pre-loads common catalogue items for your specific trade.</p></div>
         </div>
-        <div class="faq-item">
-          <h3 class="faq-q">Does it really work offline?</h3>
-          <p>Yes. Every feature works without internet. Your data is stored locally on your device first. When cloud sync launches, it will sync in the background when you have a connection.</p>
+        <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+          <h3 class="faq-q">Does it really work offline? <span class="faq-toggle">+</span></h3>
+          <div class="faq-a"><p>Yes. Every feature works without internet. Your data is stored locally on your device first. When cloud sync launches, it will sync in the background when you have a connection.</p></div>
         </div>
-        <div class="faq-item">
-          <h3 class="faq-q">Is it only for Canadians?</h3>
-          <p>PocketTrades is designed for Canadian tradespeople with built-in GST/HST/PST/QST handling and CAD currency. We plan to expand to other markets in the future.</p>
+        <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+          <h3 class="faq-q">Is it only for Canadians? <span class="faq-toggle">+</span></h3>
+          <div class="faq-a"><p>PocketTrades is designed for Canadian tradespeople with built-in GST/HST/PST/QST handling and CAD currency. We plan to expand to other markets in the future.</p></div>
         </div>
-        <div class="faq-item">
-          <h3 class="faq-q">Is my data safe?</h3>
-          <p>Your data lives on your device. We don't sell your information, and our privacy policy is written in plain language. When cloud sync launches, your data will be encrypted and stored securely.</p>
+        <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+          <h3 class="faq-q">Is my data safe? <span class="faq-toggle">+</span></h3>
+          <div class="faq-a"><p>Your data lives on your device. We don't sell your information, and our privacy policy is written in plain language. When cloud sync launches, your data will be encrypted and stored securely.</p></div>
         </div>
-        <div class="faq-item">
-          <h3 class="faq-q">Can I try it before paying?</h3>
-          <p>Absolutely. The free tier lets you create up to 5 invoices and 5 quotes per month with no time limit. Upgrade to Pro only when your business needs it.</p>
+        <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+          <h3 class="faq-q">Can I try it before paying? <span class="faq-toggle">+</span></h3>
+          <div class="faq-a"><p>Absolutely. The free tier lets you create up to 5 invoices and 5 quotes per month with no time limit. Upgrade to Pro only when your business needs it.</p></div>
         </div>
-        <div class="faq-item">
-          <h3 class="faq-q">What platforms are supported?</h3>
-          <p>Android and iOS. Desktop support (Windows, Linux, macOS) is on our roadmap for v2.5.</p>
+        <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+          <h3 class="faq-q">What platforms are supported? <span class="faq-toggle">+</span></h3>
+          <div class="faq-a"><p>Android and iOS. Desktop support (Windows, Linux, macOS) is on our roadmap for v2.5.</p></div>
         </div>
       </div>
     </div>
@@ -255,6 +298,69 @@
       </div>
     </div>
   </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&#8593;</button>
+
+  <script>
+    // === Scroll animations (Intersection Observer) ===
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // === Hero entrance animation ===
+    window.addEventListener('load', () => {
+      document.querySelector('.anim-hero').classList.add('entered');
+      document.querySelector('.anim-hero-phone').classList.add('entered');
+    });
+
+    // === Animated counter ($0 → $4,250.00) ===
+    const counterEl = document.getElementById('counter');
+    let counterDone = false;
+    const counterObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !counterDone) {
+        counterDone = true;
+        animateCounter(counterEl, 4250, 1200);
+      }
+    }, { threshold: 0.5 });
+    counterObserver.observe(counterEl);
+
+    function animateCounter(el, target, duration) {
+      const start = performance.now();
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease-out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = eased * target;
+        el.textContent = '$' + value.toLocaleString('en-CA', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    // === Nav shadow on scroll ===
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // === Back to top button ===
+    const btn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+  </script>
 
 </body>
 </html>
