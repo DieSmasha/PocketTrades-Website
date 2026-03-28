@@ -348,7 +348,13 @@ img { max-width: 100%; display: block; }
 /* ===== Footer ===== */
 .footer { padding: 60px 0 32px; background: var(--navy); color: rgba(255,255,255,0.7); }
 .footer-brand { margin-bottom: 32px; }
-.footer-logo { height: 44px; width: auto; filter: brightness(2) saturate(0.8); margin-bottom: 8px; }
+.footer-brand-text { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.footer-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; background: var(--gold); color: var(--navy);
+  border-radius: 8px; font-weight: 700; font-size: 0.9rem;
+}
+.footer-name { font-size: 1.4rem; font-weight: 700; }
 .footer-tagline { margin-top: 8px; font-size: 0.9rem; }
 .footer-links { display: flex; gap: 80px; margin-bottom: 40px; }
 .footer-col { display: flex; flex-direction: column; gap: 8px; }
