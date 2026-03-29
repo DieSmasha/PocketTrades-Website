@@ -423,12 +423,29 @@ img { max-width: 100%; display: block; }
   background: var(--gray-50);
   border-top: 1px solid var(--gray-200);
 }
+.legal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
 .legal-nav {
   display: flex;
   gap: 8px;
-  margin-bottom: 40px;
   flex-wrap: wrap;
 }
+.legal-close {
+  background: none;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: all 0.2s;
+}
+.legal-close:hover { border-color: var(--navy); color: var(--navy); }
 .legal-tab {
   padding: 10px 20px;
   border-radius: var(--radius-sm);

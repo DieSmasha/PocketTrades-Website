@@ -280,13 +280,16 @@
     </div>
   </section>
 
-  <!-- Legal -->
-  <section id="legal" class="legal-section">
+  <!-- Legal (hidden by default — shown via footer links) -->
+  <section id="legal" class="legal-section" style="display:none">
     <div class="container">
-      <div class="legal-nav">
-        <a href="#terms" class="legal-tab" onclick="showLegal('terms')">Terms of Service</a>
-        <a href="#privacy" class="legal-tab" onclick="showLegal('privacy')">Privacy Policy</a>
-        <a href="#eula" class="legal-tab" onclick="showLegal('eula')">EULA</a>
+      <div class="legal-header">
+        <div class="legal-nav">
+          <a href="#terms" class="legal-tab" onclick="showLegal('terms')">Terms of Service</a>
+          <a href="#privacy" class="legal-tab" onclick="showLegal('privacy')">Privacy Policy</a>
+          <a href="#eula" class="legal-tab" onclick="showLegal('eula')">EULA</a>
+        </div>
+        <button class="legal-close" onclick="closeLegal()" aria-label="Close">&times;</button>
       </div>
 
       <div id="terms" class="legal-doc">
@@ -550,16 +553,22 @@
       nav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
 
-    // === Legal tab switcher ===
+    // === Legal section (hidden by default) ===
     function showLegal(id) {
+      const section = document.getElementById('legal');
+      section.style.display = 'block';
       document.querySelectorAll('.legal-doc').forEach(d => d.style.display = 'none');
       document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
       const doc = document.getElementById(id);
-      if (doc) { doc.style.display = 'block'; }
+      if (doc) doc.style.display = 'block';
       const tab = document.querySelector(`.legal-tab[href="#${id}"]`);
       if (tab) tab.classList.add('active');
+      setTimeout(() => section.scrollIntoView({ behavior: 'smooth' }), 50);
     }
-    // Activate correct tab on hash load
+    function closeLegal() {
+      document.getElementById('legal').style.display = 'none';
+    }
+    // Show correct tab if URL has hash
     window.addEventListener('load', () => {
       const hash = window.location.hash.replace('#','');
       if (['terms','privacy','eula'].includes(hash)) showLegal(hash);
