@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PocketTrades — Invoicing for Canadian Tradespeople</title>
   <meta name="description" content="Professional invoicing, quotes, and job management built for Canadian tradespeople. Works offline. Available on Android and iOS.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <style>
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/inter-400.ttf') format('truetype'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/inter-500.ttf') format('truetype'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/inter-600.ttf') format('truetype'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('assets/fonts/inter-700.ttf') format('truetype'); }
+  </style>
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -299,7 +302,7 @@
             <tr>
               <th></th>
               <th class="highlight-col">PocketTrades</th>
-              <th>QuickBooks</th>
+              <th>Traditional Software</th>
               <th>Pen &amp; Paper</th>
             </tr>
           </thead>
@@ -349,7 +352,7 @@
             <tr class="price-row">
               <td>Monthly cost</td>
               <td class="highlight-col"><strong>Free / $XX</strong></td>
-              <td>$35+/mo</td>
+              <td>$25-50+/mo</td>
               <td>Free</td>
             </tr>
           </tbody>
@@ -364,11 +367,11 @@
       <div class="canada-inner reveal">
         <div class="canada-flag">&#127464;&#127462;</div>
         <h2>Proudly Canadian.</h2>
-        <p>Built in Canada, for Canadian tradespeople. Your data stays in Canada. GST, HST, PST, and QST are all handled automatically based on your province. Every price is in Canadian dollars. No currency conversions, no US-centric tax headaches.</p>
+        <p>Built in Canada, for Canadian tradespeople. Your data is stored locally on your device first and foremost. GST, HST, PST, and QST are all handled automatically based on your province. Every price is in Canadian dollars. No currency conversions, no US-centric tax headaches.</p>
         <div class="canada-badges">
           <div class="canada-badge">
             <span class="canada-badge-icon">&#128274;</span>
-            <span>Data stored in Canada</span>
+            <span>Offline-first, your device</span>
           </div>
           <div class="canada-badge">
             <span class="canada-badge-icon">&#128176;</span>
@@ -457,8 +460,14 @@
             <option value="other">Other</option>
           </select>
         </div>
+        <div class="form-group consent-group">
+          <label class="consent-label">
+            <input type="checkbox" id="interestConsent" required>
+            <span>I consent to receiving email communications from PocketTrades about product updates and launch notifications. You can unsubscribe at any time by replying to any email.</span>
+          </label>
+        </div>
         <button type="submit" class="interest-btn" id="interestBtn">Notify Me When It Launches</button>
-        <p class="interest-privacy">We'll never share your email. Unsubscribe anytime.</p>
+        <p class="interest-privacy">PocketTrades is operated by David Stelck, Selkirk, Manitoba, Canada. Contact: <a href="mailto:support@pockettrades.ca">support@pockettrades.ca</a></p>
         <p class="interest-msg" id="interestMsg"></p>
       </form>
     </div>
@@ -483,7 +492,7 @@
           </ul>
         </div>
         <div class="pricing-card pro reveal">
-          <div class="pro-badge">Most Popular</div>
+          <div class="pro-badge">Recommended</div>
           <h3>Pro</h3>
           <div class="price gold-text">$XX.XX<span>/month</span></div>
           <div class="price-alt">or $XXX lifetime (mobile)</div>
@@ -608,7 +617,8 @@
           <li>Invoice and quote data (line items, amounts, dates, notes)</li>
           <li>Job scheduling information</li>
           <li>Payment records and expense records</li>
-          <li>Communications with Chip (processed in real-time only, not stored)</li>
+          <li>Communications with Chip (see Data Retention section for details)</li>
+          <li>Voice input: If you use voice input with Chip, audio is processed locally on your device. We do not record, store, or transmit audio data.</li>
         </ul>
         <p>Information Collected Automatically:</p>
         <ul>
@@ -639,7 +649,7 @@
         <p><strong>Supabase:</strong> Authentication and cloud data sync. Subject to Supabase's Privacy Policy.</p>
         <p><strong>Stripe Connect:</strong> Payment processing on invoices. Subject to Stripe's Privacy Policy.</p>
         <p><strong>Apple App Store / Google Play Store:</strong> Subscription billing. Subject to their respective privacy policies.</p>
-        <p><strong>AI Processing (Chip):</strong> Chip is powered by open-source AI language models (Qwen 2.5 family by Alibaba Cloud, licensed under Apache 2.0). These models run entirely on our own infrastructure in Canada. Conversations are processed in real-time, not stored, and not shared with any third party. Your data never leaves our servers and is not used to train AI models.</p>
+        <p><strong>AI Processing (Chip):</strong> Chip is powered by open-source AI language models (Qwen 2.5 family by Alibaba Cloud, licensed under Apache 2.0). These models run entirely on our own infrastructure in Canada. Anonymized conversation logs may be temporarily retained for up to 30 days for service improvement and abuse prevention, after which they are automatically deleted. Your data is not shared with any third party and is not used to train AI models.</p>
         <h3>6. Data Retention</h3>
         <p><strong>Local Data:</strong> Persists on your device until you uninstall the App or clear its data. You have full control.</p>
         <p><strong>Cloud Data:</strong> Retained while your account is active. Permanently deleted within 30 days of account deletion request.</p>
