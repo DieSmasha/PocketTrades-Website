@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -643,7 +643,7 @@
         <h3>6. Data Retention</h3>
         <p><strong>Local Data:</strong> Persists on your device until you uninstall the App or clear its data. You have full control.</p>
         <p><strong>Cloud Data:</strong> Retained while your account is active. Permanently deleted within 30 days of account deletion request.</p>
-        <p><strong>AI Conversations:</strong> Processed in real-time only. No conversation history is retained on our servers.</p>
+        <p><strong>AI Conversations:</strong> Conversations with Chip are processed in real-time. Anonymized conversation logs may be temporarily retained for up to 30 days for service improvement and abuse prevention, after which they are automatically deleted. No conversation content is shared with third parties or used to train AI models.</p>
         <p><strong>Business Records:</strong> Invoices, quotes, payments, and expenses are retained as long as your account is active. These are essential for your bookkeeping and CRA tax filings. You may export or delete at any time.</p>
         <h3>7. Your Rights Under PIPEDA (Federal)</h3>
         <p>Under the Personal Information Protection and Electronic Documents Act, you have the right to:</p>
@@ -856,8 +856,13 @@
         const res = await fetch('https://pockettrades.ca/api/interest/count');
         const data = await res.json();
         const el = document.getElementById('signupCounter');
-        if (data.count > 0) {
-          el.innerHTML = '<span class="counter-number">' + data.count + '</span> tradesperson' + (data.count === 1 ? '' : 's') + ' already signed up';
+        if (data.count > 0 && Number.isInteger(data.count)) {
+          const num = document.createElement('span');
+          num.className = 'counter-number';
+          num.textContent = data.count;
+          el.textContent = '';
+          el.appendChild(num);
+          el.appendChild(document.createTextNode(' tradesperson' + (data.count === 1 ? '' : 's') + ' already signed up'));
         }
       } catch(e) {}
     }
