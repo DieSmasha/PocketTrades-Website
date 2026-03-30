@@ -35,11 +35,11 @@
         <p class="hero-sub">Create professional invoices and quotes in seconds. Manage jobs, track payments, and run your trade business — all from your phone. Works offline, so it works on the job site.</p>
         <div class="store-badges">
           <div class="badge-wrapper">
-            <img src="assets/app-store-badge.svg" alt="Download on the App Store" class="store-badge disabled">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" class="store-badge disabled">
             <span class="coming-soon-label">Coming Soon</span>
           </div>
           <div class="badge-wrapper">
-            <img src="assets/play-store-badge.svg" alt="Get it on Google Play" class="store-badge disabled">
+            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" class="store-badge disabled">
             <span class="coming-soon-label">Coming Soon</span>
           </div>
         </div>
@@ -164,45 +164,50 @@
     </div>
   </section>
 
-  <!-- Testimonials -->
+  <!-- Reviews Coming Soon -->
   <section class="testimonials">
     <div class="container">
-      <h2 class="section-title reveal">What beta testers are saying.</h2>
-      <div class="testimonial-grid">
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p>"Finally an invoicing app that doesn't assume I'm sitting at a desk. I create invoices right from the job site before I even pack up my tools."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">MR</div>
-            <div>
-              <strong>Mike R.</strong>
-              <span>Plumber, Toronto ON</span>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p>"The tax stuff is huge. GST/HST is already set up for my province — I just pick items and send. My old app made me calculate tax manually every time."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">SC</div>
-            <div>
-              <strong>Sarah C.</strong>
-              <span>Electrician, Calgary AB</span>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p>"I work in a lot of basements with zero signal. The offline thing actually works — I've created full invoices with no internet and they sync later."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">JT</div>
-            <div>
-              <strong>James T.</strong>
-              <span>HVAC Tech, Ottawa ON</span>
-            </div>
-          </div>
-        </div>
+      <h2 class="section-title reveal">What tradespeople are saying.</h2>
+      <div class="coming-soon-reviews reveal">
+        <div class="coming-soon-icon">&#9733;</div>
+        <p class="coming-soon-text">Reviews coming soon!</p>
+        <p class="coming-soon-sub">PocketTrades is launching shortly. Be the first to try it.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- Interest Signup -->
+  <section id="interest" class="interest-section">
+    <div class="container">
+      <h2 class="section-title reveal">Get early access.</h2>
+      <p class="section-sub reveal">Sign up to be notified when PocketTrades launches. Early supporters may receive a discount on Pro.</p>
+      <form class="interest-form reveal" id="interestForm" onsubmit="submitInterest(event)">
+        <div class="form-row">
+          <input type="text" id="interestName" placeholder="Your name" required>
+          <input type="email" id="interestEmail" placeholder="Your email" required>
+          <select id="interestTrade" required>
+            <option value="" disabled selected>Your trade</option>
+            <option value="electrician">Electrician</option>
+            <option value="plumber">Plumber</option>
+            <option value="hvac">HVAC Technician</option>
+            <option value="carpenter">Carpenter</option>
+            <option value="painter">Painter</option>
+            <option value="general_contractor">General Contractor</option>
+            <option value="roofer">Roofer</option>
+            <option value="landscaper">Landscaper</option>
+            <option value="welder">Welder</option>
+            <option value="drywaller">Drywaller</option>
+            <option value="flooring">Flooring Installer</option>
+            <option value="tile_setter">Tile Setter</option>
+            <option value="insulation">Insulation Contractor</option>
+            <option value="locksmith">Locksmith</option>
+            <option value="appliance_repair">Appliance Repair</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="interest-btn" id="interestBtn">Notify Me</button>
+        <p class="interest-msg" id="interestMsg"></p>
+      </form>
     </div>
   </section>
 
@@ -591,6 +596,39 @@
       const hash = window.location.hash.replace('#','');
       if (['terms','privacy','eula'].includes(hash)) showLegal(hash);
     });
+
+    // === Interest form submission ===
+    async function submitInterest(e) {
+      e.preventDefault();
+      const btn = document.getElementById('interestBtn');
+      const msg = document.getElementById('interestMsg');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      msg.textContent = '';
+      msg.className = 'interest-msg';
+      try {
+        const res = await fetch('https://pockettrades.ca/api/interest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('interestName').value,
+            email: document.getElementById('interestEmail').value,
+            trade: document.getElementById('interestTrade').value,
+          }),
+        });
+        const data = await res.json();
+        msg.textContent = data.message || data.error || 'Thanks!';
+        msg.className = 'interest-msg ' + (res.ok ? 'success' : 'error');
+        if (res.ok) {
+          document.getElementById('interestForm').reset();
+        }
+      } catch (err) {
+        msg.textContent = 'Something went wrong. Please try again.';
+        msg.className = 'interest-msg error';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Notify Me';
+    }
 
     // === Back to top button ===
     const btn = document.getElementById('backToTop');

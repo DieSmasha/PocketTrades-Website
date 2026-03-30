@@ -493,6 +493,106 @@ img { max-width: 100%; display: block; }
 }
 .legal-doc a { color: var(--gold); text-decoration: underline; }
 
+/* ===== Coming Soon Reviews ===== */
+.coming-soon-reviews {
+  text-align: center;
+  padding: 60px 20px;
+}
+.coming-soon-icon {
+  font-size: 3rem;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.coming-soon-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.coming-soon-sub {
+  color: var(--gray-600);
+  font-size: 1.05rem;
+}
+
+/* ===== Interest Form ===== */
+.interest-section {
+  padding: 80px 0;
+  background: var(--navy);
+}
+.interest-section .section-title,
+.interest-section .section-sub {
+  color: #fff;
+}
+.interest-section .section-sub {
+  opacity: 0.8;
+}
+.interest-form {
+  max-width: 700px;
+  margin: 40px auto 0;
+}
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.form-row input,
+.form-row select {
+  flex: 1;
+  padding: 14px 16px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.form-row input::placeholder { color: rgba(255,255,255,0.45); }
+.form-row select { color: rgba(255,255,255,0.45); }
+.form-row select option { color: var(--gray-800); background: #fff; }
+.form-row input:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.interest-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--gold), #E8C06A);
+  color: var(--navy);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.interest-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(212, 168, 67, 0.4);
+}
+.interest-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.interest-msg {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  min-height: 1.4em;
+}
+.interest-msg.success { color: #4ADE80; }
+.interest-msg.error { color: #F87171; }
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
