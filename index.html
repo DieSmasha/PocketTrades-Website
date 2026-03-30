@@ -482,9 +482,9 @@
         </div>
         <div class="footer-col">
           <h4>Legal</h4>
-          <a href="#terms" onclick="showLegal('terms')">Terms of Service</a>
-          <a href="#privacy" onclick="showLegal('privacy')">Privacy Policy</a>
-          <a href="#eula" onclick="showLegal('eula')">EULA</a>
+          <a href="#legal" onclick="openLegalSection()">Terms of Service</a>
+          <a href="#legal" onclick="openLegalSection()">Privacy Policy</a>
+          <a href="#legal" onclick="openLegalSection()">EULA</a>
         </div>
         <div class="footer-col">
           <h4>Contact</h4>
@@ -557,16 +557,34 @@
     function showLegal(id) {
       const section = document.getElementById('legal');
       section.style.display = 'block';
+      // If a specific tab was requested, toggle it (click again to close)
+      if (id) {
+        const doc = document.getElementById(id);
+        const tab = document.querySelector(`.legal-tab[href="#${id}"]`);
+        const isAlreadyOpen = doc && doc.style.display === 'block';
+        // Close all docs first
+        document.querySelectorAll('.legal-doc').forEach(d => d.style.display = 'none');
+        document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
+        // Toggle: if it was open, leave closed; if closed, open it
+        if (!isAlreadyOpen) {
+          if (doc) doc.style.display = 'block';
+          if (tab) tab.classList.add('active');
+        }
+      }
+      setTimeout(() => section.scrollIntoView({ behavior: 'smooth' }), 50);
+    }
+    function openLegalSection() {
+      const section = document.getElementById('legal');
+      section.style.display = 'block';
+      // Don't open any doc — just show the tab bar
       document.querySelectorAll('.legal-doc').forEach(d => d.style.display = 'none');
       document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
-      const doc = document.getElementById(id);
-      if (doc) doc.style.display = 'block';
-      const tab = document.querySelector(`.legal-tab[href="#${id}"]`);
-      if (tab) tab.classList.add('active');
       setTimeout(() => section.scrollIntoView({ behavior: 'smooth' }), 50);
     }
     function closeLegal() {
       document.getElementById('legal').style.display = 'none';
+      document.querySelectorAll('.legal-doc').forEach(d => d.style.display = 'none');
+      document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
     }
     // Show correct tab if URL has hash
     window.addEventListener('load', () => {
