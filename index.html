@@ -182,11 +182,18 @@
       <h2 class="section-title reveal">Get early access.</h2>
       <p class="section-sub reveal">Sign up to be notified when PocketTrades launches. Early supporters may receive a discount on Pro.</p>
       <form class="interest-form reveal" id="interestForm" onsubmit="submitInterest(event)">
-        <div class="form-row">
-          <input type="text" id="interestName" placeholder="Your name" required>
-          <input type="email" id="interestEmail" placeholder="Your email" required>
+        <div class="form-group">
+          <label for="interestName">Name</label>
+          <input type="text" id="interestName" placeholder="John Smith" required>
+        </div>
+        <div class="form-group">
+          <label for="interestEmail">Email</label>
+          <input type="email" id="interestEmail" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="interestTrade">Trade</label>
           <select id="interestTrade" required>
-            <option value="" disabled selected>Your trade</option>
+            <option value="" disabled selected>Select your trade</option>
             <option value="electrician">Electrician</option>
             <option value="plumber">Plumber</option>
             <option value="hvac">HVAC Technician</option>
@@ -205,7 +212,8 @@
             <option value="other">Other</option>
           </select>
         </div>
-        <button type="submit" class="interest-btn" id="interestBtn">Notify Me</button>
+        <button type="submit" class="interest-btn" id="interestBtn">Notify Me When It Launches</button>
+        <p class="interest-privacy">We'll never share your email. Unsubscribe anytime.</p>
         <p class="interest-msg" id="interestMsg"></p>
       </form>
     </div>
