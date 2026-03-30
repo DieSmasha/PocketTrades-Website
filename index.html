@@ -11,7 +11,7 @@
     @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/inter-600.ttf') format('truetype'); }
     @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('assets/fonts/inter-700.ttf') format('truetype'); }
   </style>
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 
@@ -881,6 +881,14 @@
     // === Interest form submission ===
     async function submitInterest(e) {
       e.preventDefault();
+      // Check consent checkbox
+      const consent = document.getElementById('interestConsent');
+      if (!consent.checked) {
+        consent.closest('.consent-label').style.borderColor = '#EF4444';
+        consent.closest('.consent-label').style.animation = 'shake 0.3s';
+        setTimeout(() => { consent.closest('.consent-label').style.animation = ''; }, 300);
+        return;
+      }
       const btn = document.getElementById('interestBtn');
       const msg = document.getElementById('interestMsg');
       btn.disabled = true;
