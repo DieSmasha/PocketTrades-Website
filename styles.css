@@ -493,6 +493,352 @@ img { max-width: 100%; display: block; }
 }
 .legal-doc a { color: var(--gold); text-decoration: underline; }
 
+/* ===== App Preview ===== */
+.app-preview {
+  padding: 80px 0;
+  background: #f8f9fb;
+}
+.preview-phones {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+.preview-phone { text-align: center; }
+.phone-frame {
+  width: 260px;
+  height: 520px;
+  background: #1B2A4A;
+  border-radius: 32px;
+  padding: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 2px #2e3f5e;
+  position: relative;
+  overflow: hidden;
+}
+.phone-notch {
+  width: 100px;
+  height: 24px;
+  background: #000;
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto 8px;
+}
+.phone-content {
+  background: #0F1B33;
+  border-radius: 20px;
+  height: calc(100% - 32px);
+  overflow: hidden;
+  padding: 12px;
+  font-size: 11px;
+  color: #e0e4ea;
+}
+.mock-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1e2d48;
+}
+.mock-title { font-weight: 700; font-size: 14px; color: #fff; }
+.mock-back { color: #D4A843; font-size: 16px; }
+.mock-icon { color: #8899b3; }
+.mock-stat-card {
+  background: linear-gradient(135deg, #243250, #1e2d48);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.mock-stat-label { color: #8899b3; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.mock-stat-value { display: block; font-size: 24px; font-weight: 700; color: #D4A843; margin: 4px 0; }
+.mock-stat-row { display: flex; justify-content: space-between; }
+.mock-stat-sub { color: #8899b3; font-size: 10px; }
+.mock-green { color: #4ADE80; }
+.mock-quick-actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.mock-action-btn {
+  flex: 1;
+  background: #243250;
+  color: #D4A843;
+  text-align: center;
+  padding: 6px 4px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.mock-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #1e2d48;
+}
+.mock-muted { color: #5a6e8a; font-size: 10px; }
+.mock-right { text-align: right; }
+.mock-amount { font-weight: 600; color: #fff; }
+.mock-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+.mock-tag.paid { background: #064e3b; color: #4ADE80; }
+.mock-tag.sent { background: #1e3a5f; color: #60A5FA; }
+.mock-tag.draft { background: #3b3520; color: #FBBF24; }
+.preview-label {
+  margin-top: 16px;
+  font-weight: 600;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+}
+
+/* Invoice mock */
+.mock-invoice-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #1e2d48;
+}
+.mock-biz-name {
+  width: 36px;
+  height: 36px;
+  background: #D4A843;
+  color: #1B2A4A;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+.mock-invoice-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 11px;
+}
+.mock-invoice-line.subtotal { border-top: 1px solid #1e2d48; margin-top: 6px; padding-top: 8px; }
+.mock-invoice-line.total { font-weight: 700; color: #D4A843; font-size: 13px; }
+.mock-invoice-divider { height: 1px; background: #1e2d48; margin: 4px 0; }
+.mock-invoice-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.mock-btn-send {
+  flex: 1;
+  background: #D4A843;
+  color: #1B2A4A;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.mock-btn-pdf {
+  flex: 1;
+  background: #243250;
+  color: #e0e4ea;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Chip mock */
+.mock-chip-badge {
+  background: #D4A843;
+  color: #1B2A4A;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.mock-chat { display: flex; flex-direction: column; gap: 8px; }
+.mock-msg {
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  max-width: 90%;
+}
+.mock-msg.user {
+  background: #243250;
+  color: #e0e4ea;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.mock-msg.chip {
+  background: #1a2842;
+  color: #c8d0dc;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #2e3f5e;
+}
+.mock-chip-name {
+  display: block;
+  color: #D4A843;
+  font-weight: 700;
+  font-size: 9px;
+  margin-bottom: 3px;
+}
+
+@media (max-width: 768px) {
+  .preview-phones { gap: 24px; }
+  .phone-frame { width: 220px; height: 440px; }
+}
+
+/* ===== Comparison Table ===== */
+.comparison {
+  padding: 80px 0;
+  background: #fff;
+}
+.comparison-table {
+  max-width: 700px;
+  margin: 40px auto 0;
+  overflow-x: auto;
+}
+.comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid #e8eaee;
+}
+.comparison-table th {
+  font-weight: 700;
+  color: var(--gray-800);
+  font-size: 0.9rem;
+}
+.comparison-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+.comparison-table .highlight-col {
+  background: #f0f5ff;
+  color: var(--navy);
+  font-weight: 600;
+}
+.comparison-table th.highlight-col {
+  background: var(--navy);
+  color: #fff;
+  border-radius: 8px 8px 0 0;
+}
+.comparison-table td.highlight-col {
+  background: #f0f5ff;
+}
+.comparison-table .price-row td {
+  font-weight: 600;
+  border-bottom: none;
+}
+/* Checkmark green, X red */
+.comparison-table td:nth-child(2) { color: #16a34a; }
+.comparison-table td:nth-child(3) { color: #6b7280; }
+.comparison-table td:nth-child(4) { color: #6b7280; }
+.comparison-table .price-row td { color: var(--gray-800); }
+.comparison-table .price-row .highlight-col { color: var(--navy); }
+
+/* ===== Made in Canada ===== */
+.canada-section {
+  padding: 60px 0;
+  background: #fef9f0;
+}
+.canada-inner {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto;
+}
+.canada-flag {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+.canada-inner h2 {
+  font-size: 2rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.canada-inner p {
+  color: var(--gray-600);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+.canada-badges {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.canada-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.canada-badge-icon { font-size: 1.4rem; }
+
+/* ===== Integrations ===== */
+.integrations {
+  padding: 40px 0;
+  background: #fff;
+  border-top: 1px solid #e8eaee;
+  border-bottom: 1px solid #e8eaee;
+}
+.integrations-label {
+  text-align: center;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.integrations-strip {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.integration-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.integration-item svg { color: var(--gray-400); }
+
+/* ===== Signup Counter ===== */
+.signup-counter {
+  text-align: center;
+  color: #D4A843;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 16px;
+  min-height: 1.4em;
+}
+.counter-number {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
 /* ===== Coming Soon Reviews ===== */
 .coming-soon-reviews {
   text-align: center;
