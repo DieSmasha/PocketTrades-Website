@@ -82,6 +82,11 @@ img { max-width: 100%; display: block; }
 }
 .nav-links a:hover { color: var(--navy); }
 .nav-links a:hover::after { transform: scaleX(1); }
+.nav-demo-link {
+  color: var(--gold) !important;
+  font-weight: 600 !important;
+}
+.nav-demo-link::after { background: var(--gold) !important; }
 
 /* ===== Hero ===== */
 .hero {
@@ -143,6 +148,15 @@ img { max-width: 100%; display: block; }
   font-size: 0.75rem; font-weight: 600; color: var(--gold);
   text-transform: uppercase; letter-spacing: 0.05em;
 }
+
+.hero-demo-btn {
+  display: inline-block; margin-top: 20px;
+  padding: 12px 28px; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy); font-weight: 700; font-size: 0.95rem;
+  border-radius: 8px; text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-demo-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(212,168,67,0.35); }
 
 /* Phone Mockup */
 .phone-mockup {

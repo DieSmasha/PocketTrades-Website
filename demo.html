@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PocketTrades — Interactive Demo</title>
+  <meta name="description" content="Try PocketTrades right in your browser. Interactive demo of the invoicing app built for Canadian tradespeople.">
+  <style>
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/inter-400.ttf') format('truetype'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/inter-500.ttf') format('truetype'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/inter-600.ttf') format('truetype'); }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('assets/fonts/inter-700.ttf') format('truetype'); }
+
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #2A3D66;
+      --navy-surface: #223052;
+      --gold: #D4A843;
+      --gold-light: #E8C96A;
+      --white: #FFFFFF;
+      --gray-50: #F8F9FA;
+      --gray-100: #F1F3F5;
+      --gray-200: #E9ECEF;
+      --gray-400: #ADB5BD;
+      --gray-600: #6C757D;
+      --gray-800: #343A40;
+      --green: #2ECC71;
+      --blue: #3498DB;
+      --orange: #F39C12;
+      --red: #E74C3C;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(170deg, #0f1a2e 0%, var(--navy) 50%, #162240 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* === Top Bar === */
+    .demo-topbar {
+      width: 100%;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1120px;
+    }
+    .demo-topbar a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .demo-topbar a:hover { color: var(--white); }
+    .demo-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .demo-brand img { height: 36px; }
+
+    /* === Hero Text === */
+    .demo-hero {
+      text-align: center;
+      padding: 20px 24px 12px;
+      max-width: 600px;
+    }
+    .demo-hero h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .demo-hero p {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .gold { color: var(--gold); }
+
+    /* === Phone Container === */
+    .phone-container {
+      position: relative;
+      width: 375px;
+      height: 740px;
+      margin: 20px auto 40px;
+      flex-shrink: 0;
+    }
+    .phone-shell {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.08),
+        0 20px 60px rgba(0,0,0,0.5),
+        0 0 120px rgba(212,168,67,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .phone-inner {
+      width: 100%;
+      height: 100%;
+      background: var(--navy);
+      border-radius: 34px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Status bar */
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      flex-shrink: 0;
+    }
+    .status-bar .notch {
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 20px 20px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* App bar */
+    .app-bar {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .app-bar-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .app-bar-logo {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .app-bar-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .app-bar-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.6);
+      font-size: 1.1rem;
+      transition: background 0.15s;
+    }
+    .app-bar-icon:hover { background: rgba(255,255,255,0.08); }
+    .app-bar-back {
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-left: -8px;
+      border-radius: 6px;
+      color: var(--gold);
+      font-size: 1.2rem;
+      transition: background 0.15s;
+    }
+    .app-bar-back:hover { background: rgba(255,255,255,0.06); }
+
+    /* Screen area */
+    .screen-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .screen-area::-webkit-scrollbar { width: 0; }
+
+    .screen {
+      display: none;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Bottom nav */
+    .bottom-nav {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
+      background: linear-gradient(180deg, rgba(27,42,74,0.97) 0%, var(--navy) 100%);
+      position: relative;
+      padding: 0 4px;
+    }
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 8px 6px 6px;
+      border-radius: 10px;
+      transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      position: relative;
+      min-width: 48px;
+    }
+    .nav-tab .tab-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .nav-tab .tab-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: rgba(255,255,255,0.35);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.2s, fill 0.2s;
+    }
+    .nav-tab .tab-label {
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.35);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-tab.active .tab-icon svg { stroke: var(--gold); }
+    .nav-tab.active .tab-label { color: var(--gold); }
+    .nav-tab.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 0 0 2px 2px;
+    }
+    .nav-tab:hover .tab-icon svg { stroke: rgba(255,255,255,0.7); }
+    .nav-tab:hover .tab-label { color: rgba(255,255,255,0.7); }
+    .nav-tab.active:hover .tab-icon svg { stroke: var(--gold); }
+    .nav-tab.active:hover .tab-label { color: var(--gold); }
+
+    /* Chip FAB */
+    .chip-fab {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 40px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(212,168,67,0.4);
+      z-index: 20;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: 1.3rem;
+    }
+    .chip-fab:hover {
+      transform: translateX(-50%) scale(1.08);
+      box-shadow: 0 6px 24px rgba(212,168,67,0.5);
+    }
+    .chip-fab:active { transform: translateX(-50%) scale(0.95); }
+
+    /* === Shared UI Components === */
+    .card {
+      background: var(--navy-surface);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .card-title {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .card-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .card-sub {
+      font-size: 0.75rem;
+      color: var(--green);
+      margin-top: 2px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-paid { background: rgba(46,204,113,0.15); color: var(--green); }
+    .tag-sent { background: rgba(52,152,219,0.15); color: var(--blue); }
+    .tag-draft { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+    .tag-overdue { background: rgba(231,76,60,0.15); color: var(--red); }
+    .tag-accepted { background: rgba(46,204,113,0.15); color: var(--green); }
+    .tag-pending { background: rgba(243,156,18,0.15); color: var(--orange); }
+    .tag-active { background: rgba(52,152,219,0.15); color: var(--blue); }
+    .tag-completed { background: rgba(46,204,113,0.15); color: var(--green); }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--navy-surface);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      border: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .list-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .list-item-left { flex: 1; min-width: 0; }
+    .list-item-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .list-item-sub {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 1px;
+    }
+    .list-item-right {
+      text-align: right;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    .list-item-amount {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: var(--navy-surface);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      gap: 8px;
+    }
+    .search-bar-icon { color: rgba(255,255,255,0.3); font-size: 0.9rem; }
+    .search-bar-text { color: rgba(255,255,255,0.25); font-size: 0.85rem; }
+
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .quick-btn {
+      flex: 1;
+      padding: 10px 6px;
+      background: var(--navy-surface);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      cursor: pointer;
+      border: 1px solid rgba(212,168,67,0.15);
+      transition: all 0.15s;
+    }
+    .quick-btn:hover {
+      background: rgba(212,168,67,0.1);
+      border-color: rgba(212,168,67,0.3);
+    }
+    .quick-btn:active { transform: scale(0.97); }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+    }
+    .filter-tab {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .filter-tab.active {
+      color: var(--gold);
+      background: rgba(212,168,67,0.12);
+      border-color: rgba(212,168,67,0.2);
+    }
+    .filter-tab:hover { color: rgba(255,255,255,0.7); }
+
+    .section-header {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      padding: 12px 0 6px;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 14px;
+      background: var(--navy-surface);
+      border-radius: var(--radius-sm);
+      margin-bottom: 4px;
+      border: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .settings-item:hover { background: rgba(255,255,255,0.06); }
+    .settings-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .settings-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      background: rgba(255,255,255,0.06);
+    }
+    .settings-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .settings-arrow {
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+    }
+
+    /* === Chip Chat Screen === */
+    .chip-screen {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: var(--navy);
+      z-index: 30;
+      flex-direction: column;
+      animation: slideUp 0.25s ease;
+    }
+    .chip-screen.active { display: flex; }
+
+    .chip-header {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .chip-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+    .chip-header-info { flex: 1; }
+    .chip-header-name { font-size: 0.95rem; font-weight: 600; }
+    .chip-header-status { font-size: 0.7rem; color: var(--green); }
+
+    .chip-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chip-messages::-webkit-scrollbar { width: 0; }
+
+    .chip-msg {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease;
+    }
+    .chip-msg.user {
+      align-self: flex-end;
+      background: rgba(212,168,67,0.2);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+    .chip-msg.bot {
+      align-self: flex-start;
+      background: var(--navy-surface);
+      color: rgba(255,255,255,0.85);
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .chip-msg .bot-name {
+      font-size: 0.7rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .chip-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .chip-suggestion {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--gold);
+      background: rgba(212,168,67,0.1);
+      border: 1px solid rgba(212,168,67,0.2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip-suggestion:hover {
+      background: rgba(212,168,67,0.2);
+    }
+
+    .chip-input-area {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .chip-input {
+      flex: 1;
+      background: var(--navy-surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 9px 14px;
+      color: var(--white);
+      font-size: 0.82rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .chip-input::placeholder { color: rgba(255,255,255,0.25); }
+    .chip-input:focus { border-color: rgba(212,168,67,0.4); }
+    .chip-send {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 700;
+      transition: transform 0.15s;
+      border: none;
+    }
+    .chip-send:hover { transform: scale(1.08); }
+
+    /* === Invoice Creation Overlay === */
+    .overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: var(--navy);
+      z-index: 25;
+      flex-direction: column;
+      animation: slideUp 0.25s ease;
+    }
+    .overlay.active { display: flex; }
+
+    .overlay-header {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .overlay-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .overlay-body::-webkit-scrollbar { width: 0; }
+
+    .form-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+    .form-label:first-child { margin-top: 0; }
+
+    .form-select, .form-input {
+      width: 100%;
+      background: var(--navy-surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      color: var(--white);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-select:focus, .form-input:focus { border-color: rgba(212,168,67,0.4); }
+    .form-select { cursor: pointer; }
+
+    .line-item-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--navy-surface);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      border: 1px solid rgba(255,255,255,0.04);
+      gap: 8px;
+    }
+    .line-item-name { flex: 1; font-size: 0.82rem; color: var(--white); }
+    .line-item-price { font-size: 0.82rem; font-weight: 600; color: var(--white); }
+    .line-item-tag {
+      font-size: 0.6rem;
+      padding: 1px 6px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .line-item-tag.labour { background: rgba(52,152,219,0.15); color: var(--blue); }
+    .line-item-tag.material { background: rgba(243,156,18,0.15); color: var(--orange); }
+    .line-item-remove {
+      color: rgba(255,255,255,0.25);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 2px 4px;
+      transition: color 0.15s;
+    }
+    .line-item-remove:hover { color: var(--red); }
+
+    .add-item-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px;
+      border: 1px dashed rgba(212,168,67,0.3);
+      border-radius: var(--radius-sm);
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 14px;
+      transition: all 0.15s;
+    }
+    .add-item-btn:hover { background: rgba(212,168,67,0.06); border-color: rgba(212,168,67,0.5); }
+
+    .totals-card {
+      background: var(--navy-surface);
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .totals-row.total {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 8px;
+      margin-top: 4px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--white);
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--navy);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+    }
+    .primary-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,168,67,0.3); }
+    .primary-btn:active { transform: translateY(0); }
+
+    .secondary-btn {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .secondary-btn:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.2); }
+
+    /* Success animation */
+    .success-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: var(--navy);
+      z-index: 35;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+    .success-overlay.active { display: flex; }
+    .success-check {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(46,204,113,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      animation: popIn 0.4s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .success-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .success-sub {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    /* Customer detail overlay */
+    .detail-list-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .detail-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 2px;
+    }
+    .detail-value {
+      font-size: 0.85rem;
+      color: var(--white);
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      align-self: flex-start;
+    }
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      animation: typingBounce 1.2s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* === Bottom CTA === */
+    .demo-cta {
+      text-align: center;
+      padding: 20px 24px 48px;
+      max-width: 500px;
+    }
+    .demo-cta h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .demo-cta p {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(212,168,67,0.35); }
+
+    /* === Tooltip === */
+    .demo-tooltip {
+      position: absolute;
+      top: 96px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(212,168,67,0.15);
+      border: 1px solid rgba(212,168,67,0.25);
+      color: var(--gold);
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      z-index: 10;
+      pointer-events: none;
+      animation: tooltipFade 3s ease forwards;
+      white-space: nowrap;
+    }
+    @keyframes tooltipFade {
+      0%, 70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 420px) {
+      .phone-container {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+      }
+      .phone-shell {
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      .phone-inner { border-radius: 0; }
+      .demo-topbar, .demo-hero, .demo-cta { display: none; }
+      body { background: var(--navy); }
+    }
+
+    /* === Catalog picker modal === */
+    .catalog-modal {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 28;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .catalog-modal.active { display: flex; }
+    .catalog-sheet {
+      width: 100%;
+      max-height: 70%;
+      background: var(--navy);
+      border-radius: 20px 20px 0 0;
+      padding: 16px;
+      overflow-y: auto;
+      animation: slideUp 0.25s ease;
+    }
+    .catalog-sheet::-webkit-scrollbar { width: 0; }
+    .catalog-sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      margin: 0 auto 12px;
+    }
+    .catalog-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .catalog-item:hover { background: rgba(255,255,255,0.06); }
+    .catalog-item-name { font-size: 0.82rem; color: var(--white); }
+    .catalog-item-meta {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .catalog-item-price {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="demo-topbar">
+    <a href="index.html">&larr; Back to site</a>
+    <div class="demo-brand">
+      <img src="assets/logo.png" alt="PT">
+      PocketTrades
+    </div>
+    <a href="index.html#interest">Get Early Access</a>
+  </div>
+
+  <!-- Hero -->
+  <div class="demo-hero">
+    <h1>Try it. <span class="gold">Right here.</span></h1>
+    <p>Tap around the app below. Create an invoice, chat with Chip, explore every screen.</p>
+  </div>
+
+  <!-- Phone -->
+  <div class="phone-container">
+    <div class="phone-shell">
+      <div class="phone-inner">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span>9:41</span>
+          <div class="notch"></div>
+          <span>&#9679;&#9679;&#9679;</span>
+        </div>
+
+        <!-- App Bar (dynamic) -->
+        <div class="app-bar" id="appBar">
+          <span class="app-bar-logo">PT</span>
+          <span class="app-bar-title" id="appBarTitle">Dashboard</span>
+          <div class="app-bar-actions">
+            <div class="app-bar-icon" title="Search">&#128269;</div>
+          </div>
+        </div>
+
+        <!-- Screen Area -->
+        <div class="screen-area" id="screenArea">
+
+          <!-- Tooltip -->
+          <div class="demo-tooltip" id="tooltip">Tap the tabs below to explore</div>
+
+          <!-- DASHBOARD -->
+          <div class="screen active" id="screen-dashboard">
+            <div class="card">
+              <div class="card-title">This Month</div>
+              <div class="card-value" id="revenueCounter">$0.00</div>
+              <div class="card-sub">&#9650; 23% vs last month</div>
+            </div>
+            <div class="quick-actions">
+              <div class="quick-btn" onclick="openInvoiceFlow()">+ Invoice</div>
+              <div class="quick-btn" onclick="switchTab('quotes')">+ Quote</div>
+              <div class="quick-btn" onclick="switchTab('settings')">+ Expense</div>
+            </div>
+            <div class="card-title" style="padding: 4px 0;">Recent Activity</div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-024</div>
+                <div class="list-item-sub">Mike's Plumbing</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$1,200.00</div>
+                <span class="tag tag-paid">Paid</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-025</div>
+                <div class="list-item-sub">Sarah's Electric</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$3,800.00</div>
+                <span class="tag tag-sent">Sent</span>
+              </div>
+            </div>
+            <div class="list-item" onclick="openInvoiceFlow()">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-026</div>
+                <div class="list-item-sub">James HVAC</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$5,200.00</div>
+                <span class="tag tag-overdue">Overdue</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">QUO-011</div>
+                <div class="list-item-sub">Dave's Reno</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$8,900.00</div>
+                <span class="tag tag-pending">Pending</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CUSTOMERS -->
+          <div class="screen" id="screen-customers">
+            <div class="search-bar">
+              <span class="search-bar-icon">&#128269;</span>
+              <span class="search-bar-text">Search customers...</span>
+            </div>
+            <div class="list-item" onclick="showCustomerDetail('mike')">
+              <div class="list-item-left">
+                <div class="list-item-title">Mike's Plumbing</div>
+                <div class="list-item-sub">mike@mikesplumbing.ca</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount" style="color: var(--green);">$0.00</div>
+                <div class="list-item-sub">All paid</div>
+              </div>
+            </div>
+            <div class="list-item" onclick="showCustomerDetail('sarah')">
+              <div class="list-item-left">
+                <div class="list-item-title">Sarah's Electric</div>
+                <div class="list-item-sub">sarah@sarahelectric.ca</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount" style="color: var(--orange);">$3,800.00</div>
+                <div class="list-item-sub">Outstanding</div>
+              </div>
+            </div>
+            <div class="list-item" onclick="showCustomerDetail('james')">
+              <div class="list-item-left">
+                <div class="list-item-title">James HVAC</div>
+                <div class="list-item-sub">james@jameshvac.com</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount" style="color: var(--red);">$5,200.00</div>
+                <div class="list-item-sub">Overdue</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Dave's Reno</div>
+                <div class="list-item-sub">dave@davesreno.ca</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount" style="color: var(--green);">$0.00</div>
+                <div class="list-item-sub">All paid</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Northern Builds</div>
+                <div class="list-item-sub">info@northernbuilds.ca</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount" style="color: var(--green);">$0.00</div>
+                <div class="list-item-sub">All paid</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- JOBS -->
+          <div class="screen" id="screen-jobs">
+            <div class="filter-tabs">
+              <div class="filter-tab active">Active</div>
+              <div class="filter-tab">Completed</div>
+              <div class="filter-tab">All</div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Panel Upgrade</div>
+                <div class="list-item-sub">Sarah's Electric &middot; Started Mar 28</div>
+              </div>
+              <div class="list-item-right">
+                <span class="tag tag-active">Active</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Furnace Install</div>
+                <div class="list-item-sub">James HVAC &middot; Started Mar 25</div>
+              </div>
+              <div class="list-item-right">
+                <span class="tag tag-active">Active</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Kitchen Reno - Plumbing</div>
+                <div class="list-item-sub">Dave's Reno &middot; Started Mar 20</div>
+              </div>
+              <div class="list-item-right">
+                <span class="tag tag-active">Active</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Hot Water Tank</div>
+                <div class="list-item-sub">Mike's Plumbing &middot; Mar 15</div>
+              </div>
+              <div class="list-item-right">
+                <span class="tag tag-completed">Done</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">Bathroom Rough-In</div>
+                <div class="list-item-sub">Northern Builds &middot; Mar 10</div>
+              </div>
+              <div class="list-item-right">
+                <span class="tag tag-completed">Done</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- INVOICES -->
+          <div class="screen" id="screen-invoices">
+            <div class="filter-tabs">
+              <div class="filter-tab active">All</div>
+              <div class="filter-tab">Draft</div>
+              <div class="filter-tab">Sent</div>
+              <div class="filter-tab">Paid</div>
+              <div class="filter-tab">Overdue</div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-026</div>
+                <div class="list-item-sub">James HVAC &middot; Mar 25</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$5,200.00</div>
+                <span class="tag tag-overdue">Overdue</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-025</div>
+                <div class="list-item-sub">Sarah's Electric &middot; Mar 22</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$3,800.00</div>
+                <span class="tag tag-sent">Sent</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-024</div>
+                <div class="list-item-sub">Mike's Plumbing &middot; Mar 18</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$1,200.00</div>
+                <span class="tag tag-paid">Paid</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-023</div>
+                <div class="list-item-sub">Northern Builds &middot; Mar 12</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$2,450.00</div>
+                <span class="tag tag-paid">Paid</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">INV-022</div>
+                <div class="list-item-sub">Dave's Reno &middot; Mar 5</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$8,900.00</div>
+                <span class="tag tag-paid">Paid</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUOTES -->
+          <div class="screen" id="screen-quotes">
+            <div class="filter-tabs">
+              <div class="filter-tab active">All</div>
+              <div class="filter-tab">Draft</div>
+              <div class="filter-tab">Sent</div>
+              <div class="filter-tab">Accepted</div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">QUO-012</div>
+                <div class="list-item-sub">Dave's Reno &middot; Bathroom remodel</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$12,400.00</div>
+                <span class="tag tag-sent">Sent</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">QUO-011</div>
+                <div class="list-item-sub">Dave's Reno &middot; Kitchen plumbing</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$8,900.00</div>
+                <span class="tag tag-accepted">Accepted</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">QUO-010</div>
+                <div class="list-item-sub">Northern Builds &middot; Rough-in</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$3,200.00</div>
+                <span class="tag tag-accepted">Accepted</span>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-left">
+                <div class="list-item-title">QUO-009</div>
+                <div class="list-item-sub">Sarah's Electric &middot; Panel upgrade</div>
+              </div>
+              <div class="list-item-right">
+                <div class="list-item-amount">$4,068.00</div>
+                <span class="tag tag-accepted">Accepted</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SETTINGS -->
+          <div class="screen" id="screen-settings">
+            <div class="section-header">Subscription</div>
+            <div class="settings-item" style="border-left: 3px solid var(--gold);">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background: rgba(212,168,67,0.15);">&#11088;</div>
+                <div>
+                  <div class="settings-label">PocketTrades Pro</div>
+                  <div style="font-size: 0.7rem; color: var(--green);">Active</div>
+                </div>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+
+            <div class="section-header">Business</div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#127970;</div>
+                <span class="settings-label">Business Profile</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#128218;</div>
+                <span class="settings-label">Catalog</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#128196;</div>
+                <span class="settings-label">Invoice Templates</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+
+            <div class="section-header">Tools</div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#128200;</div>
+                <span class="settings-label">Reports</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="rgba(255,255,255,0.7)"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-1-4c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z"/></svg></div>
+                <span class="settings-label">Chip AI Assistant</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#127974;</div>
+                <span class="settings-label">Bank Import</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#128101;</div>
+                <span class="settings-label">Accountant Sharing</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+
+            <div class="section-header">Account</div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#9729;&#65039;</div>
+                <span class="settings-label">Cloud Backup</span>
+              </div>
+              <span class="settings-arrow">&#8250;</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">&#127763;</div>
+                <span class="settings-label">Dark Mode</span>
+              </div>
+              <span style="color: var(--gold); font-size: 0.75rem; font-weight: 600;">On</span>
+            </div>
+          </div>
+
+        </div><!-- /screen-area -->
+
+        <!-- Chip Chat Overlay -->
+        <div class="chip-screen" id="chipScreen">
+          <div class="chip-header">
+            <div class="app-bar-back" onclick="closeChip()">&larr;</div>
+            <div class="chip-avatar"><svg viewBox="0 0 24 24" width="18" height="18" fill="var(--navy)"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-1-4c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z"/></svg></div>
+            <div class="chip-header-info">
+              <div class="chip-header-name">Chip</div>
+              <div class="chip-header-status">Online</div>
+            </div>
+            <span style="font-size: 0.65rem; padding: 2px 8px; background: rgba(212,168,67,0.15); color: var(--gold); border-radius: 8px; font-weight: 700;">AI</span>
+          </div>
+          <div class="chip-messages" id="chipMessages">
+            <div class="chip-msg bot">
+              <div class="bot-name">Chip</div>
+              Hey! I'm Chip, your AI assistant. I can create invoices, record payments, add customers, and answer questions about your business. What can I help with?
+            </div>
+          </div>
+          <div class="chip-suggestions" id="chipSuggestions">
+            <div class="chip-suggestion" onclick="chipSuggestion('Create an invoice for Mike - hot water tank install, $2800 labour + $1200 tank')">Create invoice</div>
+            <div class="chip-suggestion" onclick="chipSuggestion('Record a $1,200 payment from Mike')">Record payment</div>
+            <div class="chip-suggestion" onclick="chipSuggestion('How much revenue did I make this month?')">Monthly revenue</div>
+            <div class="chip-suggestion" onclick="chipSuggestion('Add a new customer: Northern Mechanical, 204-555-0188')">Add customer</div>
+          </div>
+          <div class="chip-input-area">
+            <input type="text" class="chip-input" id="chipInput" placeholder="Ask Chip anything..." onkeydown="if(event.key==='Enter')sendChipMessage()">
+            <button class="chip-send" onclick="sendChipMessage()">&#8593;</button>
+          </div>
+        </div>
+
+        <!-- Invoice Creation Overlay -->
+        <div class="overlay" id="invoiceOverlay">
+          <div class="overlay-header">
+            <div class="app-bar-back" onclick="closeInvoiceFlow()">&larr;</div>
+            <span class="app-bar-title">New Invoice</span>
+          </div>
+          <div class="overlay-body" id="invoiceBody">
+            <!-- Step 1: Customer -->
+            <div id="invoiceStep1">
+              <div class="form-label">Customer</div>
+              <select class="form-select" id="invoiceCustomer" onchange="goToInvoiceStep2()">
+                <option value="">Select a customer...</option>
+                <option value="mike">Mike's Plumbing</option>
+                <option value="sarah">Sarah's Electric</option>
+                <option value="james">James HVAC</option>
+                <option value="dave">Dave's Reno</option>
+                <option value="northern">Northern Builds</option>
+              </select>
+            </div>
+
+            <!-- Step 2: Line items -->
+            <div id="invoiceStep2" style="display:none;">
+              <div class="form-label">Line Items</div>
+              <div id="lineItemsList"></div>
+              <div class="add-item-btn" onclick="openCatalog()">+ Add from Catalog</div>
+
+              <div class="totals-card" id="totalsCard" style="display:none;">
+                <div class="totals-row"><span>Subtotal</span><span id="subtotalAmt">$0.00</span></div>
+                <div class="totals-row"><span>HST (13%)</span><span id="taxAmt">$0.00</span></div>
+                <div class="totals-row total"><span>Total</span><span id="totalAmt">$0.00</span></div>
+              </div>
+
+              <button class="primary-btn" id="sendInvoiceBtn" style="display:none;" onclick="sendInvoice()">Send Invoice</button>
+              <button class="secondary-btn" id="saveDraftBtn" style="display:none;" onclick="sendInvoice()">Save as Draft</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catalog Picker -->
+        <div class="catalog-modal" id="catalogModal" onclick="closeCatalog(event)">
+          <div class="catalog-sheet" onclick="event.stopPropagation()">
+            <div class="catalog-sheet-handle"></div>
+            <div class="search-bar" style="margin-bottom: 8px;">
+              <span class="search-bar-icon">&#128269;</span>
+              <span class="search-bar-text">Search catalog...</span>
+            </div>
+            <div class="section-header">Labour</div>
+            <div class="catalog-item" onclick="addCatalogItem('Service call', 150, 'labour')">
+              <div><div class="catalog-item-name">Service call</div><div class="catalog-item-meta">Labour &middot; 1 hr</div></div>
+              <span class="catalog-item-price">$150.00</span>
+            </div>
+            <div class="catalog-item" onclick="addCatalogItem('Pipe repair (labour)', 280, 'labour')">
+              <div><div class="catalog-item-name">Pipe repair</div><div class="catalog-item-meta">Labour &middot; 2 hr</div></div>
+              <span class="catalog-item-price">$280.00</span>
+            </div>
+            <div class="catalog-item" onclick="addCatalogItem('Hot water tank install (labour)', 2800, 'labour')">
+              <div><div class="catalog-item-name">Hot water tank install</div><div class="catalog-item-meta">Labour &middot; full day</div></div>
+              <span class="catalog-item-price">$2,800.00</span>
+            </div>
+            <div class="catalog-item" onclick="addCatalogItem('Drain cleaning', 175, 'labour')">
+              <div><div class="catalog-item-name">Drain cleaning</div><div class="catalog-item-meta">Labour &middot; 1.5 hr</div></div>
+              <span class="catalog-item-price">$175.00</span>
+            </div>
+            <div class="section-header">Materials</div>
+            <div class="catalog-item" onclick="addCatalogItem('50 gal hot water tank', 1200, 'material')">
+              <div><div class="catalog-item-name">50 gal hot water tank</div><div class="catalog-item-meta">Material &middot; Rheem</div></div>
+              <span class="catalog-item-price">$1,200.00</span>
+            </div>
+            <div class="catalog-item" onclick="addCatalogItem('3/4\" copper pipe (10ft)', 45, 'material')">
+              <div><div class="catalog-item-name">3/4" copper pipe (10ft)</div><div class="catalog-item-meta">Material</div></div>
+              <span class="catalog-item-price">$45.00</span>
+            </div>
+            <div class="catalog-item" onclick="addCatalogItem('SharkBite fitting 3/4\"', 18, 'material')">
+              <div><div class="catalog-item-name">SharkBite fitting 3/4"</div><div class="catalog-item-meta">Material</div></div>
+              <span class="catalog-item-price">$18.00</span>
+            </div>
+            <div class="catalog-item" onclick="addCatalogItem('PEX tubing (50ft)', 65, 'material')">
+              <div><div class="catalog-item-name">PEX tubing (50ft)</div><div class="catalog-item-meta">Material</div></div>
+              <span class="catalog-item-price">$65.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Detail Overlay -->
+        <div class="overlay" id="customerDetail">
+          <div class="overlay-header">
+            <div class="app-bar-back" onclick="closeCustomerDetail()">&larr;</div>
+            <span class="app-bar-title" id="customerDetailName">Customer</span>
+          </div>
+          <div class="overlay-body">
+            <div class="card" style="text-align: center; padding: 20px;">
+              <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(212,168,67,0.15); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--gold); font-weight: 700;" id="customerDetailInitial">M</div>
+              <div style="font-size: 1rem; font-weight: 600;" id="customerDetailTitle">Mike's Plumbing</div>
+              <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 2px;" id="customerDetailEmail">mike@mikesplumbing.ca</div>
+            </div>
+            <div class="detail-list-item">
+              <div class="detail-label">Phone</div>
+              <div class="detail-value" id="customerDetailPhone">204-555-0142</div>
+            </div>
+            <div class="detail-list-item">
+              <div class="detail-label">Outstanding</div>
+              <div class="detail-value" id="customerDetailBalance" style="color: var(--green);">$0.00 - All paid</div>
+            </div>
+            <div class="detail-list-item">
+              <div class="detail-label">Total Revenue</div>
+              <div class="detail-value" id="customerDetailRevenue">$4,800.00</div>
+            </div>
+            <div class="section-header">Recent Invoices</div>
+            <div id="customerDetailInvoices"></div>
+            <button class="primary-btn" onclick="closeCustomerDetail(); openInvoiceFlow();">Create Invoice</button>
+          </div>
+        </div>
+
+        <!-- Success Overlay -->
+        <div class="success-overlay" id="successOverlay">
+          <div class="success-check">&#10003;</div>
+          <div class="success-text">Invoice Sent!</div>
+          <div class="success-sub">INV-027 has been emailed to the customer. You'll be notified when they view it.</div>
+          <button class="primary-btn" style="width: auto; padding: 12px 40px; margin-top: 8px;" onclick="closeSuccess()">Done</button>
+        </div>
+
+        <!-- Chip FAB -->
+        <div class="chip-fab" id="chipFab" onclick="openChip()" title="Chat with Chip AI"><svg viewBox="0 0 24 24" width="26" height="26" fill="var(--navy)"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-1-4c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z"/></svg></div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+          <div class="nav-tab active" onclick="switchTab('dashboard')" data-tab="dashboard">
+            <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg></span>
+            <span class="tab-label">Dash</span>
+          </div>
+          <div class="nav-tab" onclick="switchTab('customers')" data-tab="customers">
+            <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></span>
+            <span class="tab-label">People</span>
+          </div>
+          <div class="nav-tab" onclick="switchTab('jobs')" data-tab="jobs">
+            <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0H8m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h2"/></svg></span>
+            <span class="tab-label">Jobs</span>
+          </div>
+          <div class="nav-tab" onclick="switchTab('invoices')" data-tab="invoices">
+            <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></span>
+            <span class="tab-label">Invoices</span>
+          </div>
+          <div class="nav-tab" onclick="switchTab('quotes')" data-tab="quotes">
+            <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></span>
+            <span class="tab-label">Quotes</span>
+          </div>
+          <div class="nav-tab" onclick="switchTab('settings')" data-tab="settings">
+            <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <span class="tab-label">Settings</span>
+          </div>
+        </div>
+
+      </div><!-- /phone-inner -->
+    </div><!-- /phone-shell -->
+  </div><!-- /phone-container -->
+
+  <!-- CTA -->
+  <div class="demo-cta">
+    <h2>Ready to run your business <span class="gold">like a pro?</span></h2>
+    <p>PocketTrades is launching soon on Android and iOS. Sign up for early access.</p>
+    <a href="index.html#interest" class="cta-btn">Get Early Access</a>
+  </div>
+
+  <script>
+    // === Tab Navigation ===
+    const tabTitles = {
+      dashboard: 'Dashboard',
+      customers: 'Customers',
+      jobs: 'Jobs',
+      invoices: 'Invoices',
+      quotes: 'Quotes',
+      settings: 'Settings'
+    };
+
+    function switchTab(tab) {
+      // Hide all screens
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+      // Show target
+      const screen = document.getElementById('screen-' + tab);
+      if (screen) screen.classList.add('active');
+      document.querySelector('[data-tab="' + tab + '"]')?.classList.add('active');
+
+      // Update app bar
+      document.getElementById('appBarTitle').textContent = tabTitles[tab] || tab;
+
+      // Close overlays
+      closeChip();
+      closeInvoiceFlow();
+      closeCustomerDetail();
+
+      // Remove tooltip
+      const tip = document.getElementById('tooltip');
+      if (tip) tip.remove();
+    }
+
+    // === Revenue Counter Animation ===
+    function animateCounter(target, duration) {
+      const el = document.getElementById('revenueCounter');
+      const start = performance.now();
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = target * eased;
+        el.textContent = '$' + value.toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+    setTimeout(() => animateCounter(7450, 1200), 400);
+
+    // === Chip Chat ===
+    let chipConversationIndex = 0;
+    const chipConversations = [
+      {
+        user: "Create an invoice for Mike - hot water tank install, $2800 labour + $1200 tank",
+        bot: "Got it! I've created <strong>INV-027</strong> for Mike's Plumbing:<br><br>&#8226; Hot water tank install (labour): <strong>$2,800.00</strong><br>&#8226; 50 gal hot water tank (material): <strong>$1,200.00</strong><br>&#8226; HST (13%): $520.00<br>&#8226; <strong>Total: $4,520.00</strong><br><br>Want me to send it to Mike?"
+      },
+      {
+        user: "Record a $1,200 payment from Mike",
+        bot: "Done! I've recorded a <strong>$1,200.00</strong> payment from Mike's Plumbing against INV-024.<br><br>&#10003; INV-024 is now marked as <strong>Paid</strong>.<br><br>Mike's outstanding balance: <strong>$0.00</strong>"
+      },
+      {
+        user: "How much revenue did I make this month?",
+        bot: "Here's your March summary:<br><br>&#128200; <strong>Revenue: $7,450.00</strong><br>&#128176; Collected: $4,250.00<br>&#9888;&#65039; Outstanding: $3,200.00<br><br>That's <strong>23% up</strong> from February. You have 1 overdue invoice (James HVAC - $5,200)."
+      },
+      {
+        user: "Add a new customer: Northern Mechanical, 204-555-0188",
+        bot: "&#10003; Customer added!<br><br><strong>Northern Mechanical</strong><br>&#128222; 204-555-0188<br><br>Would you like me to create an invoice or quote for them?"
+      }
+    ];
+
+    function openChip() {
+      document.getElementById('chipScreen').classList.add('active');
+      document.getElementById('chipFab').style.display = 'none';
+    }
+
+    function closeChip() {
+      document.getElementById('chipScreen').classList.remove('active');
+      document.getElementById('chipFab').style.display = 'flex';
+    }
+
+    function chipSuggestion(text) {
+      document.getElementById('chipInput').value = text;
+      sendChipMessage();
+    }
+
+    function sendChipMessage() {
+      const input = document.getElementById('chipInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      const messages = document.getElementById('chipMessages');
+      const suggestions = document.getElementById('chipSuggestions');
+
+      // Add user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chip-msg user';
+      userMsg.textContent = text;
+      messages.appendChild(userMsg);
+
+      // Hide suggestions
+      suggestions.style.display = 'none';
+
+      // Show typing indicator
+      const typing = document.createElement('div');
+      typing.className = 'typing-indicator';
+      typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      messages.appendChild(typing);
+      messages.scrollTop = messages.scrollHeight;
+
+      // Find matching response or use default
+      let response = "I can help with that! In the full app, I'd process this right away. Try one of the suggested prompts to see me in action.";
+      const lowerText = text.toLowerCase();
+
+      for (const conv of chipConversations) {
+        if (lowerText.includes('invoice') && conv.user.toLowerCase().includes('invoice')) {
+          response = conv.bot;
+          break;
+        }
+        if (lowerText.includes('payment') && conv.user.toLowerCase().includes('payment')) {
+          response = conv.bot;
+          break;
+        }
+        if ((lowerText.includes('revenue') || lowerText.includes('month')) && conv.user.toLowerCase().includes('revenue')) {
+          response = conv.bot;
+          break;
+        }
+        if ((lowerText.includes('customer') || lowerText.includes('add')) && conv.user.toLowerCase().includes('customer')) {
+          response = conv.bot;
+          break;
+        }
+      }
+
+      // Bot response after delay
+      setTimeout(() => {
+        typing.remove();
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chip-msg bot';
+        botMsg.innerHTML = '<div class="bot-name">Chip</div>' + response;
+        messages.appendChild(botMsg);
+        messages.scrollTop = messages.scrollHeight;
+
+        // Show suggestions again after a moment
+        setTimeout(() => { suggestions.style.display = 'flex'; }, 500);
+      }, 1200 + Math.random() * 600);
+    }
+
+    // === Invoice Creation Flow ===
+    let invoiceLineItems = [];
+
+    function openInvoiceFlow() {
+      invoiceLineItems = [];
+      document.getElementById('invoiceOverlay').classList.add('active');
+      document.getElementById('invoiceStep1').style.display = 'block';
+      document.getElementById('invoiceStep2').style.display = 'none';
+      document.getElementById('invoiceCustomer').value = '';
+      document.getElementById('chipFab').style.display = 'none';
+      renderLineItems();
+    }
+
+    function closeInvoiceFlow() {
+      document.getElementById('invoiceOverlay').classList.remove('active');
+      document.getElementById('chipFab').style.display = 'flex';
+    }
+
+    function goToInvoiceStep2() {
+      if (!document.getElementById('invoiceCustomer').value) return;
+      document.getElementById('invoiceStep1').style.display = 'none';
+      document.getElementById('invoiceStep2').style.display = 'block';
+    }
+
+    function openCatalog() {
+      document.getElementById('catalogModal').classList.add('active');
+    }
+
+    function closeCatalog(e) {
+      if (e && e.target !== e.currentTarget) return;
+      document.getElementById('catalogModal').classList.remove('active');
+    }
+
+    function addCatalogItem(name, price, type) {
+      invoiceLineItems.push({ name, price, type });
+      closeCatalog({ target: document.getElementById('catalogModal'), currentTarget: document.getElementById('catalogModal') });
+      renderLineItems();
+    }
+
+    function removeLineItem(index) {
+      invoiceLineItems.splice(index, 1);
+      renderLineItems();
+    }
+
+    function renderLineItems() {
+      const container = document.getElementById('lineItemsList');
+      container.innerHTML = '';
+      invoiceLineItems.forEach((item, i) => {
+        const row = document.createElement('div');
+        row.className = 'line-item-row';
+        row.innerHTML =
+          '<span class="line-item-tag ' + item.type + '">' + (item.type === 'labour' ? 'L' : 'M') + '</span>' +
+          '<span class="line-item-name">' + item.name + '</span>' +
+          '<span class="line-item-price">$' + item.price.toLocaleString('en-CA', { minimumFractionDigits: 2 }) + '</span>' +
+          '<span class="line-item-remove" onclick="removeLineItem(' + i + ')">&#10005;</span>';
+        container.appendChild(row);
+      });
+
+      const hasItems = invoiceLineItems.length > 0;
+      document.getElementById('totalsCard').style.display = hasItems ? 'block' : 'none';
+      document.getElementById('sendInvoiceBtn').style.display = hasItems ? 'block' : 'none';
+      document.getElementById('saveDraftBtn').style.display = hasItems ? 'block' : 'none';
+
+      if (hasItems) {
+        const subtotal = invoiceLineItems.reduce((sum, item) => sum + item.price, 0);
+        const tax = subtotal * 0.13;
+        const total = subtotal + tax;
+        document.getElementById('subtotalAmt').textContent = '$' + subtotal.toLocaleString('en-CA', { minimumFractionDigits: 2 });
+        document.getElementById('taxAmt').textContent = '$' + tax.toLocaleString('en-CA', { minimumFractionDigits: 2 });
+        document.getElementById('totalAmt').textContent = '$' + total.toLocaleString('en-CA', { minimumFractionDigits: 2 });
+      }
+    }
+
+    function sendInvoice() {
+      document.getElementById('invoiceOverlay').classList.remove('active');
+      const total = invoiceLineItems.reduce((sum, item) => sum + item.price, 0) * 1.13;
+      document.getElementById('successOverlay').querySelector('.success-sub').textContent =
+        'INV-027 for $' + total.toLocaleString('en-CA', { minimumFractionDigits: 2 }) + ' has been emailed to the customer. You\'ll be notified when they view it.';
+      document.getElementById('successOverlay').classList.add('active');
+    }
+
+    function closeSuccess() {
+      document.getElementById('successOverlay').classList.remove('active');
+      document.getElementById('chipFab').style.display = 'flex';
+      switchTab('dashboard');
+    }
+
+    // === Customer Detail ===
+    const customerData = {
+      mike: {
+        name: "Mike's Plumbing", email: "mike@mikesplumbing.ca", phone: "204-555-0142",
+        initial: "M", balance: "$0.00 - All paid", balanceColor: "var(--green)", revenue: "$4,800.00",
+        invoices: [
+          { id: "INV-024", amount: "$1,200.00", tag: "paid", tagClass: "tag-paid" },
+          { id: "INV-018", amount: "$3,600.00", tag: "paid", tagClass: "tag-paid" }
+        ]
+      },
+      sarah: {
+        name: "Sarah's Electric", email: "sarah@sarahelectric.ca", phone: "416-555-0298",
+        initial: "S", balance: "$3,800.00", balanceColor: "var(--orange)", revenue: "$11,200.00",
+        invoices: [
+          { id: "INV-025", amount: "$3,800.00", tag: "sent", tagClass: "tag-sent" },
+          { id: "INV-019", amount: "$7,400.00", tag: "paid", tagClass: "tag-paid" }
+        ]
+      },
+      james: {
+        name: "James HVAC", email: "james@jameshvac.com", phone: "905-555-0177",
+        initial: "J", balance: "$5,200.00", balanceColor: "var(--red)", revenue: "$5,200.00",
+        invoices: [
+          { id: "INV-026", amount: "$5,200.00", tag: "overdue", tagClass: "tag-overdue" }
+        ]
+      }
+    };
+
+    function showCustomerDetail(key) {
+      const c = customerData[key];
+      if (!c) return;
+      document.getElementById('customerDetailName').textContent = c.name;
+      document.getElementById('customerDetailTitle').textContent = c.name;
+      document.getElementById('customerDetailEmail').textContent = c.email;
+      document.getElementById('customerDetailPhone').textContent = c.phone;
+      document.getElementById('customerDetailInitial').textContent = c.initial;
+      document.getElementById('customerDetailBalance').textContent = c.balance;
+      document.getElementById('customerDetailBalance').style.color = c.balanceColor;
+      document.getElementById('customerDetailRevenue').textContent = c.revenue;
+
+      const invoicesEl = document.getElementById('customerDetailInvoices');
+      invoicesEl.innerHTML = '';
+      c.invoices.forEach(inv => {
+        invoicesEl.innerHTML +=
+          '<div class="list-item">' +
+            '<div class="list-item-left"><div class="list-item-title">' + inv.id + '</div></div>' +
+            '<div class="list-item-right"><div class="list-item-amount">' + inv.amount + '</div><span class="tag ' + inv.tagClass + '">' + inv.tag + '</span></div>' +
+          '</div>';
+      });
+
+      document.getElementById('customerDetail').classList.add('active');
+      document.getElementById('chipFab').style.display = 'none';
+    }
+
+    function closeCustomerDetail() {
+      document.getElementById('customerDetail').classList.remove('active');
+      document.getElementById('chipFab').style.display = 'flex';
+    }
+
+    // === Filter tab interactivity ===
+    document.querySelectorAll('.filter-tabs').forEach(group => {
+      group.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          group.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
